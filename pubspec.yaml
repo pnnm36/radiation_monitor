@@ -37,6 +37,7 @@ dependencies:
   socket_io_client: ^1.0.1
   json_annotation: ^4.3.0
   syncfusion_flutter_charts: ^19.3.57
+  animated_splash_screen: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -68,7 +69,7 @@ flutter:
      - images/humi.jpg
      - images/radiation.jpg
      - images/office.jpg
-     - images/radi.png
+     - images/radi.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -86,3 +87,6 @@ flutter:
     - family: Montserrat-Bold
       fonts:
             - asset: fonts/Montserrat-Bold.ttf
+    - family: Rubik-Bold
+      fonts:
+            - asset: fonts/Rubik-Bold.ttf

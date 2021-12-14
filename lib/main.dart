@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'station.dart';
 import 'stationdata.dart';
-
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 IO.Socket socket = IO.io('https://rewes1.glitch.me',
     IO.OptionBuilder().setTransports(['websocket']).build());
 
@@ -23,7 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         StationDetail.nameRoute: (context) => const StationDetail(),
       },
-      title: 'Radiation monitor',
+      title: '',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -36,7 +34,12 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: AnimatedSplashScreen(
+        splash: 'images/radi.jpg',
+        duration: 1000,
+        nextScreen: MyHomePage(),
+        splashTransition: SplashTransition.sizeTransition,
+      ),
     );
   }
 }
@@ -132,18 +135,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 updatedItem: stationTemp,
                 itemList: stationDataList);
           }),
-      bottomNavigationBar: BottomNavigationBar(
-        // backgroundColor: Color.fromRGBO(71, 73, 246, 1),
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard,color: Colors.black,),
-              label: '',
-            ),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.info,color: Colors.black,),
-            label: '',
-            )
-      ]),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   // backgroundColor: Color.fromRGBO(71, 73, 246, 1),
+      //     items: const [
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.dashboard,color: Colors.black,),
+      //         label: '',
+      //       ),
+      //   BottomNavigationBarItem(
+      //       icon: Icon(Icons.info,color: Colors.black,),
+      //       label: '',
+      //       )
+      // ]),
       // body: Container(
       //   child: Center(
       //     child: Container(
@@ -183,6 +186,64 @@ class StationItem extends StatelessWidget {
 
     return Column(
       children: [
+        const SizedBox(
+          height: 130,
+        ),
+        const Text('Real Time Monitor',
+            style: TextStyle(
+                fontFamily: 'Rubik-Bold',
+                color: Color.fromRGBO(120, 101, 227, 1),
+                fontSize: 30,
+                letterSpacing: 1)),
+    Text(
+        '${station_data.date[8]}'
+        '${station_data.date[9]}'
+        '/'
+        '${station_data.date[5]}'
+        '${station_data.date[6]}'
+        '/'
+        '${station_data.date[0]}'
+        '${station_data.date[1]}'
+        '${station_data.date[2]}'
+        '${station_data.date[3]}',
+        style: const TextStyle(
+          fontFamily: 'Rubik-Bold',
+          color: Colors.black,
+          fontSize: 15,
+          letterSpacing: 1,
+        )),
+        const Text(
+            '1.0 beta',
+            style: TextStyle(
+              fontFamily: 'Rubik-Bold',
+              color: Colors.black,
+              fontSize: 15,
+              letterSpacing: 1,
+            )),
+        const SizedBox(
+          height: 100,
+        ),
+        Container(
+          height: 200,
+          width: 200,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/radi.jpg'),
+              fit: BoxFit.fill,
+            ),
+            shape: BoxShape.circle,
+            // boxShadow: [
+            //   BoxShadow(
+            //       color: Colors.grey.withOpacity(0.6),
+            //       offset: Offset(-6, 4),
+            //       blurRadius: 10,
+            //       spreadRadius: 2),
+            // ],
+          ),
+        ),
+        const SizedBox(
+          height: 150,
+        ),
         InkWell(
           onTap: () {
             print('Clicked ${item.name}');
@@ -195,14 +256,16 @@ class StationItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                width: double.infinity,
-                height: 100,
+                width: 350,
+                height: 60,
                 //margin: EdgeInsets.symmetric(horizontal: 16,vertical: 16) ,
                 decoration: BoxDecoration(
-                  color: const Color.fromRGBO(71, 73, 246, 1),
+                  color: const Color.fromRGBO(120, 101, 227, 1),
                   borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16),
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                    topLeft: Radius.circular(40),
                   ),
                   // topLeft: Radius.circular(16),
                   // topRight: Radius.circular(16)),
@@ -215,39 +278,42 @@ class StationItem extends StatelessWidget {
                   ],
                 ),
                 child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 20,
+                  children: const [
+                    // SizedBox(
+                    //   height: 20,
+                    // ),
+                    Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Text('Station2',
+                          style: TextStyle(
+                              fontFamily: 'Rubik-Bold',
+                              color: Colors.white,
+                              fontSize: 15)),
                     ),
-                    const Text('Station 2',
-                        style: TextStyle(
-                            fontFamily: 'Montserrat-Bold',
-                            color: Colors.white,
-                            fontSize: 15)),
-                    const SizedBox(
-                      height: 35,
-                      width: 350,
-                      child: Divider(
-                        thickness: 2,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                        '${station_data.date[8]}'
-                        '${station_data.date[9]}'
-                        '/'
-                        '${station_data.date[5]}'
-                        '${station_data.date[6]}'
-                        '/'
-                        '${station_data.date[0]}'
-                        '${station_data.date[1]}'
-                        '${station_data.date[2]}'
-                        '${station_data.date[3]}',
-                        style: const TextStyle(
-                          fontFamily: 'Montserrat-Bold',
-                          color: Colors.white,
-                          fontSize: 15,
-                        )),
+                    // const SizedBox(
+                    //   height: 35,
+                    //   width: 350,
+                    //   child: Divider(
+                    //     thickness: 2,
+                    //     color: Colors.white,
+                    //   ),
+                    // ),
+                    // Text(
+                    //     '${station_data.date[8]}'
+                    //     '${station_data.date[9]}'
+                    //     '/'
+                    //     '${station_data.date[5]}'
+                    //     '${station_data.date[6]}'
+                    //     '/'
+                    //     '${station_data.date[0]}'
+                    //     '${station_data.date[1]}'
+                    //     '${station_data.date[2]}'
+                    //     '${station_data.date[3]}',
+                    //     style: const TextStyle(
+                    //       fontFamily: 'Montserrat-Bold',
+                    //       color: Colors.white,
+                    //       fontSize: 15,
+                    //     )),
                   ],
                 ),
                 // child: Column(
@@ -292,32 +358,13 @@ class StationItem extends StatelessWidget {
             ],
           ),
         ),
+
         const SizedBox(
-          height: 180,
-        ),
-        Container(
-          child: const Text('Real Time Monitor',
-              style: TextStyle(
-                  fontFamily: 'Montserrat-Bold',
-                  color: Colors.blue,
-                  fontSize: 30)),
-        ),
-        Container(
-          height: 100,
-          width: 100,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('images/radi.png'),
-              fit: BoxFit.fill,
-            ),
-            shape: BoxShape.circle,
-            // boxShadow: [
-            //   BoxShadow(
-            //       color: Colors.grey.withOpacity(0.6),
-            //       offset: Offset(-6, 4),
-            //       blurRadius: 10,
-            //       spreadRadius: 2),
-            // ],
+          height: 60,
+          width: 200,
+          child: Divider(
+            color: Colors.grey,
+            thickness: 1.5,
           ),
         ),
       ],
@@ -396,6 +443,16 @@ class _StationDetailState extends State<StationDetail> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
+                child: Column(
+                  children: const [
+                    Text('Chart is developing, see in next version...'),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 175,
+              ),
+              Container(
                 width: double.infinity,
                 height: 400,
                 //margin: EdgeInsets.symmetric(horizontal: 16,vertical: 16) ,
@@ -407,7 +464,7 @@ class _StationDetailState extends State<StationDetail> {
                   boxShadow: [
                     BoxShadow(
                         color: Colors.grey.withOpacity(0.6),
-                        offset: Offset(-6, 4),
+                        offset: const Offset(-6, 4),
                         blurRadius: 10,
                         spreadRadius: 2),
                   ],
@@ -452,7 +509,7 @@ class _StationDetailState extends State<StationDetail> {
                                 const Text(
                                   'TEMPERATURE',
                                   style: TextStyle(
-                                      fontFamily: 'Montserrat-Bold',
+                                      fontFamily: 'Rubik-Bold',
                                       color: Colors.black,
                                       fontSize: 15,
                                       letterSpacing: 1),
@@ -463,7 +520,7 @@ class _StationDetailState extends State<StationDetail> {
                                 Text(
                                   '${_stationData.tempC}',
                                   style: const TextStyle(
-                                      fontFamily: 'Montserrat-Bold',
+                                      fontFamily: 'Rubik-Bold',
                                       color: Colors.black,
                                       fontSize: 15,
                                       letterSpacing: 1),
@@ -530,7 +587,7 @@ class _StationDetailState extends State<StationDetail> {
                                 const Text(
                                   'HUMI',
                                   style: TextStyle(
-                                      fontFamily: 'Montserrat-Bold',
+                                      fontFamily: 'Rubik-Bold',
                                       color: Colors.black,
                                       fontSize: 15,
                                       letterSpacing: 1),
@@ -541,7 +598,7 @@ class _StationDetailState extends State<StationDetail> {
                                 Text(
                                   '${_stationData.humi}',
                                   style: const TextStyle(
-                                      fontFamily: 'Montserrat-Bold',
+                                      fontFamily: 'Rubik-Bold',
                                       color: Colors.black,
                                       fontSize: 15,
                                       letterSpacing: 1),
@@ -598,7 +655,7 @@ class _StationDetailState extends State<StationDetail> {
                           ),
                         ),
                         const SizedBox(
-                          width: 20,
+                          width: 18,
                         ),
                         Column(
                           children: [
@@ -607,18 +664,18 @@ class _StationDetailState extends State<StationDetail> {
                                 const Text(
                                   'RADIATION',
                                   style: TextStyle(
-                                      fontFamily: 'Montserrat-Bold',
+                                      fontFamily: 'Rubik-Bold',
                                       color: Colors.black,
                                       fontSize: 15,
                                       letterSpacing: 1),
                                 ),
                                 const SizedBox(
-                                  width: 157,
+                                  width: 165,
                                 ),
                                 Text(
                                   '${_stationData.uSv}',
                                   style: const TextStyle(
-                                      fontFamily: 'Montserrat-Bold',
+                                      fontFamily: 'Rubik-Bold',
                                       color: Colors.black,
                                       fontSize: 15,
                                       letterSpacing: 1),
@@ -628,7 +685,7 @@ class _StationDetailState extends State<StationDetail> {
                             Row(
                               children: const [
                                 SizedBox(
-                                  width: 248,
+                                  width: 250,
                                 ),
                                 Text(
                                   'uSv/h',
@@ -686,7 +743,7 @@ class _StationDetailState extends State<StationDetail> {
                                 const Text(
                                   'CPS',
                                   style: TextStyle(
-                                      fontFamily: 'Montserrat-Bold',
+                                      fontFamily: 'Rubik-Bold',
                                       color: Colors.black,
                                       fontSize: 15,
                                       letterSpacing: 1),
@@ -697,7 +754,7 @@ class _StationDetailState extends State<StationDetail> {
                                 Text(
                                   '${_stationData.cps}',
                                   style: const TextStyle(
-                                      fontFamily: 'Montserrat-Bold',
+                                      fontFamily: 'Rubik-Bold',
                                       color: Colors.black,
                                       fontSize: 15,
                                       letterSpacing: 1),
@@ -763,18 +820,18 @@ class _StationDetailState extends State<StationDetail> {
                                 const Text(
                                   'COUNTS',
                                   style: TextStyle(
-                                      fontFamily: 'Montserrat-Bold',
+                                      fontFamily: 'Rubik-Bold',
                                       color: Colors.black,
                                       fontSize: 15,
                                       letterSpacing: 1),
                                 ),
                                 const SizedBox(
-                                  width: 155,
+                                  width: 165,
                                 ),
                                 Text(
                                   '${_stationData.counts}',
                                   style: const TextStyle(
-                                      fontFamily: 'Montserrat-Bold',
+                                      fontFamily: 'Rubik-Bold',
                                       color: Colors.black,
                                       fontSize: 15,
                                       letterSpacing: 1),
